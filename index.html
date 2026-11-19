@@ -254,7 +254,15 @@ document.getElementById('view').addEventListener('change',function(e){if(e.targe
 setInterval(function(){var a=document.activeElement;if(!a||a.tagName!=='INPUT')render()},60000);
 
 var shareBtn=document.getElementById("share");
-if(window.claude&&claude.use){claude.use("downloads").then(function(dl){if(!dl)return;shareBtn.hidden=false;shareBtn.onclick=async function(){shareBtn.disabled=true;try{var b=await makePdf();await dl.save({filename:"sujatha-"+new Date().toISOString().slice(0,10)+".pdf",data:b})}catch(e){}shareBtn.disabled=false}}).catch(function(){})}
+shareBtn.hidden=false;
+shareBtn.onclick=async function(){
+shareBtn.disabled=true;
+try{
+var b=await makePdf(),name="sujatha-"+new Date().toISOString().slice(0,10)+".pdf",f=new File([b],name,{type:"application/pdf"});
+if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],title:"Sujatha"})}
+else{var u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000)}
+}catch(e){}
+shareBtn.disabled=false};
 
 render();
 </script>
