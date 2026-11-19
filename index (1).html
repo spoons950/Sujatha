@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ml">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>സുജാത തണ്ടാട്ടിൽ</title>
+<link href="https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#150A38;--surface:#241552;--ink:#EEE9FF;--muted:#AA9CD9;--line:#3B2879;--leaf:#8E6BFF;--leaf-ink:var(--bi);--bi:#FFFFFF;--g1:#6A4BF2;--g2:#9A78FF;--glow:#4A2BB8;--turmeric:#A9C0FF;--chili:#FF8FA8;--soft:#2C1A6B;color-scheme:dark;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(120% 55% at 85% 0%,var(--glow) 0%,transparent 65%),radial-gradient(90% 40% at 0% 100%,color-mix(in srgb,var(--g1) 55%,transparent) 0%,transparent 70%),var(--bg);background-attachment:fixed;color:var(--ink);font-family:"Anek Malayalam","Noto Sans Malayalam",system-ui,sans-serif;font-size:17px;line-height:1.6}
+main{max-width:620px;margin:0 auto;padding:20px 16px 90px;position:relative;z-index:1}
+h1{font-size:30px;font-weight:800;margin:6px 0 0;line-height:1.25}
+.date{color:var(--muted);margin:0 0 18px}
+nav{display:flex;gap:6px;background:var(--soft);padding:5px;border-radius:14px;margin-bottom:18px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+nav button{flex:1;border:0;background:transparent;color:var(--muted);font:inherit;font-weight:600;padding:9px 4px;border-radius:10px;cursor:pointer}
+nav button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.15)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--turmeric);outline-offset:2px}
+form{display:grid;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:16px}
+.row{display:flex;gap:8px}
+input,select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-width:0;width:100%}
+.add{border:0;background:linear-gradient(135deg,var(--g1),var(--g2));color:var(--leaf-ink);font:inherit;font-weight:600;padding:11px;border-radius:10px;cursor:pointer}
+.item{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.item.done .t{text-decoration:line-through;color:var(--muted)}
+.grow{flex:1;min-width:0}
+.t{font-weight:600;overflow-wrap:anywhere}
+.s{color:var(--muted);font-size:15px}
+.late{color:var(--chili);font-weight:600}
+.chk{width:26px;height:26px;margin-top:3px;accent-color:var(--leaf);flex:none}
+.x{border:0;background:transparent;color:var(--muted);font-size:22px;line-height:1;cursor:pointer;padding:4px 8px}
+.stars{color:var(--turmeric);letter-spacing:2px}
+.due{background:var(--soft);border-left:5px solid var(--turmeric);border-radius:10px;padding:10px 14px;margin-bottom:10px;display:flex;gap:10px;align-items:center}
+.due b{flex:1}
+.mini{border:0;background:linear-gradient(135deg,var(--g1),var(--g2));color:var(--leaf-ink);font:inherit;font-weight:600;padding:7px 14px;border-radius:9px;cursor:pointer}
+.bar{height:8px;background:var(--soft);border-radius:6px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--g1),var(--g2))}
+.bar i.over{background:var(--chili)}
+.empty{color:var(--muted);text-align:center;padding:22px 10px}
+h2{font-size:19px;margin:22px 0 10px}
+#fx{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.share{display:block;width:100%;margin:0 0 16px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:600;padding:10px;border-radius:12px;cursor:pointer}
+.share[hidden]{display:none}
+.share:disabled{opacity:.6}
+nav button{font-size:14.5px;padding:9px 2px}
+.week{display:flex;gap:8px;align-items:flex-end;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px}
+.wd{flex:1;text-align:center;font-size:11px;color:var(--muted)}
+.wb{height:80px;background:var(--soft);border-radius:6px;display:flex;align-items:flex-end;overflow:hidden;margin-bottom:4px}
+.wb i{display:block;width:100%;background:var(--g2);opacity:.55}
+.wb i.ok{opacity:1}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-size:15px;padding:7px 12px;border-radius:20px;cursor:pointer}
+.ans{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--turmeric);border-radius:14px;padding:12px 14px;white-space:pre-wrap;overflow-wrap:anywhere}
+</style>
+</head>
+<body>
+<canvas id="fx" aria-hidden="true"></canvas>
+<main>
+<h1>സുജാത തണ്ടാട്ടിൽ</h1>
+<p class="date" id="today"></p>
+<button class="share" id="share" hidden>PDF ആയി ഷെയർ ചെയ്യുക</button>
+<nav role="tablist">
+<button role="tab" data-tab="rem" aria-selected="true">ഓർമ്മ</button>
+<button role="tab" data-tab="cook" aria-selected="false">പാചകം</button>
+<button role="tab" data-tab="plant" aria-selected="false">തോട്ടം</button>
+<button role="tab" data-tab="walk" aria-selected="false">നടത്തം</button>
+
+</nav>
+<section id="view"></section>
+</main>
+<script>
+var KEY="ente-adukkalathottam-v1";
+var S={rem:[],cook:[],plant:[],walk:[],cfg:{walkAt:'16:00',goal:60}};
+var tab="rem";
+try{var raw=localStorage.getItem(KEY);if(raw){var p=JSON.parse(raw);S.rem=p.rem||[];S.cook=p.cook||[];S.plant=p.plant||[];S.walk=p.walk||[];S.cfg=p.cfg||S.cfg}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function fmt(d,time){try{return new Date(d).toLocaleString("ml-IN",time?{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}:{day:"numeric",month:"short"})}catch(e){return String(d).slice(0,10)}}
+function daysAgo(t){var a=new Date(t),b=new Date();a.setHours(0,0,0,0);b.setHours(0,0,0,0);return Math.round((b-a)/864e5)}
+try{document.getElementById("today").textContent=new Date().toLocaleDateString("ml-IN",{weekday:"long",day:"numeric",month:"long"})}catch(e){}
+
+function viewRem(){
+  var h='<form data-form="rem"><input name="text" placeholder="എന്താണ് ഓർമ്മിക്കേണ്ടത്?" required><div class="row"><input type="datetime-local" name="when" aria-label="സമയം"></div><button class="add">ചേർക്കുക</button></form>';
+  var nw=new Date(),hm=String(nw.getHours()).padStart(2,'0')+':'+String(nw.getMinutes()).padStart(2,'0');if(hm>=S.cfg.walkAt&&todayMin()<S.cfg.goal)h+='<div class="due"><b>നടക്കാൻ സമയമായി! ഇന്ന് '+todayMin()+'/'+S.cfg.goal+' മിനിറ്റ്</b><button class="mini" data-act="walk" data-min="60">1 മണിക്കൂർ നടന്നു</button></div>';
+  var due=S.plant.filter(function(p){return daysAgo(p.last)>=p.every});
+  due.forEach(function(p){h+='<div class="due"><b>'+esc(p.name)+' നനയ്ക്കണം</b><button class="mini" data-act="water" data-id="'+p.id+'">നനച്ചു</button></div>'});
+  var list=S.rem.slice().sort(function(a,b){return (a.done-b.done)||((a.when||"9")>(b.when||"9")?1:-1)});
+  if(!list.length)h+='<p class="empty">ഒന്നുമില്ല. മുകളിൽ ഒരെണ്ണം ചേർക്കൂ.</p>';
+  var now=new Date().toISOString().slice(0,16);
+  list.forEach(function(r){
+    var late=!r.done&&r.when&&r.when<now;
+    h+='<div class="item'+(r.done?' done':'')+'"><input class="chk" type="checkbox" data-act="toggle" data-id="'+r.id+'"'+(r.done?' checked':'')+' aria-label="കഴിഞ്ഞു"><div class="grow"><div class="t">'+esc(r.text)+'</div>'+(r.when?'<div class="s'+(late?' late':'')+'">'+fmt(r.when,true)+(late?' · കഴിഞ്ഞു':'')+'</div>':'')+'</div><button class="x" data-act="del-rem" data-id="'+r.id+'" aria-label="നീക്കുക">×</button></div>';
+  });
+  return h;
+}
+function viewCook(){
+  var h='<form data-form="cook"><input name="name" placeholder="ഇന്ന് എന്താണ് ഉണ്ടാക്കിയത്?" required><select name="stars" aria-label="എങ്ങനെയുണ്ടായിരുന്നു"><option value="5">★★★★★ കിടിലം</option><option value="4">★★★★ നന്നായി</option><option value="3">★★★ കുഴപ്പമില്ല</option><option value="2">★★ ഇനി ശ്രദ്ധിക്കണം</option><option value="1">★ പരാജയം</option></select><input name="note" placeholder="കുറിപ്പ് (ഉപ്പ്, സമയം, മാറ്റങ്ങൾ…)"><button class="add">രേഖപ്പെടുത്തുക</button></form>';
+  if(!S.cook.length)h+='<p class="empty">ഇതുവരെ ഒന്നും രേഖപ്പെടുത്തിയിട്ടില്ല.</p>';
+  S.cook.slice().reverse().forEach(function(c){
+    h+='<div class="item"><div class="grow"><div class="t">'+esc(c.name)+'</div><div class="stars" aria-label="'+c.stars+' നക്ഷത്രം">'+"★".repeat(c.stars)+"☆".repeat(5-c.stars)+'</div>'+(c.note?'<div class="s">'+esc(c.note)+'</div>':'')+'<div class="s">'+fmt(c.date)+'</div></div><button class="x" data-act="del-cook" data-id="'+c.id+'" aria-label="നീക്കുക">×</button></div>';
+  });
+  return h;
+}
+function viewPlant(){
+  var h='<form data-form="plant"><input name="name" placeholder="ചെടിയുടെ പേര്" required><div class="row"><input type="number" name="every" min="1" max="60" value="2" required aria-label="എത്ര ദിവസം കൂടുമ്പോൾ നനയ്ക്കണം"></div><div class="s">എത്ര ദിവസം കൂടുമ്പോൾ നനയ്ക്കണം എന്ന് മുകളിൽ നൽകുക</div><button class="add">ചെടി ചേർക്കുക</button></form>';
+  if(!S.plant.length)h+='<p class="empty">ആദ്യത്തെ ചെടി ചേർക്കൂ.</p>';
+  S.plant.forEach(function(p){
+    var d=daysAgo(p.last),over=d>=p.every,pct=Math.min(100,Math.round(d/p.every*100));
+    h+='<div class="item"><div class="grow"><div class="t">'+esc(p.name)+'</div><div class="s'+(over?' late':'')+'">'+(d===0?'ഇന്ന് നനച്ചു':d+' ദിവസം മുമ്പ് നനച്ചു')+' · '+p.every+' ദിവസം കൂടുമ്പോൾ</div><div class="bar"><i class="'+(over?'over':'')+'" style="width:'+pct+'%"></i></div></div><button class="mini" data-act="water" data-id="'+p.id+'">നനച്ചു</button><button class="x" data-act="del-plant" data-id="'+p.id+'" aria-label="നീക്കുക">×</button></div>';
+  });
+  return h;
+}
+function render(){
+  document.getElementById("view").innerHTML={rem:viewRem,cook:viewCook,plant:viewPlant,walk:viewWalk,ai:viewAI}[tab]();
+  document.querySelectorAll("nav button").forEach(function(b){b.setAttribute("aria-selected",b.dataset.tab===tab)});
+}
+document.querySelector("nav").addEventListener("click",function(e){var b=e.target.closest("button");if(b){tab=b.dataset.tab;render()}});
+document.getElementById("view").addEventListener("submit",function(e){
+  e.preventDefault();var f=e.target,k=f.dataset.form,v=Object.fromEntries(new FormData(f));
+  if(k==='ai'){ask(String(v.q).trim());return}
+  if(k==="rem")S.rem.push({id:uid(),text:v.text.trim(),when:v.when||"",done:false});
+  if(k==="cook")S.cook.push({id:uid(),name:v.name.trim(),stars:+v.stars,note:v.note.trim(),date:new Date().toISOString()});
+  if(k==="plant")S.plant.push({id:uid(),name:v.name.trim(),every:Math.max(1,+v.every||1),last:new Date().toISOString()});
+  save();render();
+});
+document.getElementById("view").addEventListener("click",function(e){
+  var el=e.target.closest("[data-act]");if(!el)return;var id=el.dataset.id,a=el.dataset.act;
+  if(a==='ask'){ask(el.dataset.q);return}
+  if(a==='walk'){S.walk.push({id:uid(),date:key(),min:+el.dataset.min});save();render();return}
+  if(a==='del-walk'){S.walk=S.walk.filter(function(w){return w.id!==id});save();render();return}
+  if(a==="toggle"){S.rem.forEach(function(r){if(r.id===id)r.done=!r.done})}
+  if(a==="water"){S.plant.forEach(function(p){if(p.id===id)p.last=new Date().toISOString()})}
+  if(a==="del-rem")S.rem=S.rem.filter(function(r){return r.id!==id});
+  if(a==="del-cook")S.cook=S.cook.filter(function(r){return r.id!==id});
+  if(a==="del-plant")S.plant=S.plant.filter(function(r){return r.id!==id});
+  save();render();
+});
+var DAYS=[
+{bg:"#2B0E0A",glow:"#C8501E",surface:"#3D1812",soft:"#4A1E15",line:"#6B3022",muted:"#E2B5A5",g1:"#D9501F",g2:"#FF9A5C"},
+{bg:"#161B26",glow:"#6E7FA3",surface:"#222A3A",soft:"#2B3548",line:"#44506B",muted:"#B4BED2",g1:"#5A6C94",g2:"#8FA3CE"},
+{bg:"#2A0A15",glow:"#B3153F",surface:"#3C1120",soft:"#4A1628",line:"#6E2640",muted:"#E8B0C0",g1:"#C0203F",g2:"#F0577A"},
+{bg:"#0A261C",glow:"#168A5A",surface:"#113626",soft:"#17432F",line:"#266149",muted:"#A5D8BF",g1:"#1E9A63",g2:"#2FAE76"},
+{bg:"#2A2106",glow:"#C99A00",surface:"#3A2E0A",soft:"#483A0E",line:"#6B5818",muted:"#E6D299",g1:"#B58900",g2:"#E0AB00",bi:"#241A00"},
+{bg:"#2A0F2B",glow:"#C2509E",surface:"#3B1A3D",soft:"#4A2250",line:"#6E3A73",muted:"#E8B8E0",g1:"#B8408E",g2:"#E06CB8"},
+{bg:"#150A38",glow:"#4A2BB8",surface:"#241552",soft:"#2C1A6B",line:"#3B2879",muted:"#AA9CD9",g1:"#6A4BF2",g2:"#9A78FF"}];
+var D=DAYS[new Date().getDay()];
+(function(){var r=document.documentElement.style;[["bg",D.bg],["surface",D.surface],["soft",D.soft],["line",D.line],["muted",D.muted],["g1",D.g1],["g2",D.g2],["leaf",D.g2],["turmeric",D.g2],["glow",D.glow],["bi",D.bi||"#FFFFFF"]].forEach(function(p){r.setProperty("--"+p[0],p[1])})})();
+
+(function(){
+var cv=document.getElementById("fx"),cx=cv.getContext("2d"),W,H,P=[],m={x:-999,y:-999};
+var c=parseInt(D.g2.slice(1),16),rgb=(c>>16)+","+((c>>8)&255)+","+(c&255);
+var reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+function size(){var d=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;cx.setTransform(d,0,0,d,0,0)}
+size();addEventListener("resize",size);
+var N=Math.min(70,Math.round(W*H/13000));
+for(var i=0;i<N;i++)P.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5,r:1.5+Math.random()*3});
+addEventListener("pointermove",function(e){m.x=e.clientX;m.y=e.clientY});
+addEventListener("pointerup",function(){m.x=-999});
+addEventListener("pointerdown",function(e){m.x=e.clientX;m.y=e.clientY;P.forEach(function(p){var dx=p.x-e.clientX,dy=p.y-e.clientY,d=Math.hypot(dx,dy)||1;if(d<200){p.vx+=dx/d*5;p.vy+=dy/d*5}})});
+function frame(){
+cx.clearRect(0,0,W,H);
+P.forEach(function(p){
+if(!reduce){var dx=p.x-m.x,dy=p.y-m.y,d=Math.hypot(dx,dy)||1;if(d<120){p.vx+=dx/d*.35;p.vy+=dy/d*.35}
+p.vx*=.985;p.vy*=.985;var s=Math.hypot(p.vx,p.vy);if(s<.15){p.vx+=(Math.random()-.5)*.05;p.vy+=(Math.random()-.5)*.05}
+p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0}
+cx.fillStyle="rgba("+rgb+",.55)";cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.283);cx.fill()});
+for(var i=0;i<P.length;i++)for(var j=i+1;j<P.length;j++){var d=Math.hypot(P[i].x-P[j].x,P[i].y-P[j].y);if(d<110){cx.strokeStyle="rgba("+rgb+","+(.28*(1-d/110))+")";cx.beginPath();cx.moveTo(P[i].x,P[i].y);cx.lineTo(P[j].x,P[j].y);cx.stroke()}}
+if(!reduce)requestAnimationFrame(frame)}
+frame();
+})();
+
+function buildPdf(js){
+var enc=new TextEncoder(),parts=[],len=0,offs=[],n=js.length,total=2+n*3;
+function add(x){var b=typeof x==="string"?enc.encode(x):x;parts.push(b);len+=b.length}
+function obj(id,b){offs[id]=len;add(id+" 0 obj\n"+b+"\nendobj\n")}
+add("%PDF-1.4\n");
+obj(1,"<< /Type /Catalog /Pages 2 0 R >>");
+obj(2,"<< /Type /Pages /Kids ["+js.map(function(_,i){return (3+3*i)+" 0 R"}).join(" ")+"] /Count "+n+" >>");
+js.forEach(function(j,i){var p=3+3*i,c="q 595 0 0 842 0 0 cm /Im0 Do Q";
+obj(p,"<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /XObject << /Im0 "+(p+2)+" 0 R >> >> /Contents "+(p+1)+" 0 R >>");
+obj(p+1,"<< /Length "+c.length+" >>\nstream\n"+c+"\nendstream");
+offs[p+2]=len;add((p+2)+" 0 obj\n<< /Type /XObject /Subtype /Image /Width "+j.w+" /Height "+j.h+" /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length "+j.bytes.length+" >>\nstream\n");add(j.bytes);add("\nendstream\nendobj\n")});
+var xr=len,x="xref\n0 "+(total+1)+"\n0000000000 65535 f \n";
+for(var k=1;k<=total;k++)x+=String(offs[k]).padStart(10,"0")+" 00000 n \n";
+add(x+"trailer\n<< /Size "+(total+1)+" /Root 1 0 R >>\nstartxref\n"+xr+"\n%%EOF");
+return new Blob(parts,{type:"application/pdf"})}
+
+var FONT='"Anek Malayalam","Noto Sans Malayalam",sans-serif';
+async function makePdf(){
+try{await Promise.all(["400","600","800"].map(function(w){return document.fonts.load(w+' 20px "Anek Malayalam"')}))}catch(e){}
+var pages=[],cv,cx,y;
+function np(){if(cv)pages.push(cv);cv=document.createElement("canvas");cv.width=1190;cv.height=1684;cx=cv.getContext("2d");cx.scale(2,2);cx.fillStyle="#fff";cx.fillRect(0,0,595,842);y=60}
+function ln(t,sz,w,col,ind){ind=ind||0;cx.font=w+" "+sz+"px "+FONT;var cur="",out=[];
+String(t).split(" ").forEach(function(wd){var tr=cur?cur+" "+wd:wd;if(cx.measureText(tr).width>515-ind&&cur){out.push(cur);cur=wd}else cur=tr});out.push(cur);
+out.forEach(function(l){if(y>790)np();cx.font=w+" "+sz+"px "+FONT;cx.fillStyle=col;cx.fillText(l,40+ind,y);y+=sz*1.55})}
+function sec(t){y+=12;ln(t,18,"800",D.g1);cx.fillStyle=D.g1;cx.fillRect(40,y-14,515,1.5);y+=4}
+np();
+ln("സുജാത തണ്ടാട്ടിൽ",30,"800",D.g1);
+ln(document.getElementById("today").textContent,14,"400","#555");
+sec("ഓർമ്മപ്പെടുത്തൽ");
+if(!S.rem.length)ln("ഒന്നുമില്ല",14,"400","#777");
+S.rem.forEach(function(r){ln((r.done?"● ":"○ ")+r.text+(r.when?"  ("+fmt(r.when,true)+")":""),14,"600",r.done?"#888":"#222")});
+sec("പൂന്തോട്ടം");
+if(!S.plant.length)ln("ഒന്നുമില്ല",14,"400","#777");
+S.plant.forEach(function(p){var d=daysAgo(p.last);ln(p.name,14,"600","#222");ln((d===0?"ഇന്ന് നനച്ചു":d+" ദിവസം മുമ്പ് നനച്ചു")+" · "+p.every+" ദിവസം കൂടുമ്പോൾ"+(d>=p.every?" · നനയ്ക്കണം":""),12,"400",d>=p.every?"#C0203F":"#555",14);y+=3});
+sec("പാചകം");
+if(!S.cook.length)ln("ഒന്നുമില്ല",14,"400","#777");
+S.cook.slice().reverse().forEach(function(c){ln(c.name+"   "+"★".repeat(c.stars)+"☆".repeat(5-c.stars),14,"600","#222");if(c.note)ln(c.note,12,"400","#555",14);ln(fmt(c.date),11,"400","#888",14);y+=3});
+sec('നടത്തം');for(var q=6;q>=0;q--){var dq=new Date();dq.setDate(dq.getDate()-q);ln(fmt(dq)+' — '+dayMin(key(dq))+' മിനിറ്റ്',14,'400','#222')}
+pages.push(cv);
+var js=pages.map(function(c){var b=atob(c.toDataURL("image/jpeg",.92).split(",")[1]),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return{bytes:u,w:c.width,h:c.height}});
+return buildPdf(js)}
+
+function key(d){d=d||new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function dayMin(k){return S.walk.reduce(function(a,w){return a+(w.date===k?w.min:0)},0)}
+function todayMin(){return dayMin(key())}
+function wk(d){try{return d.toLocaleDateString('ml-IN',{weekday:'short'})}catch(e){return ['Su','Mo','Tu','We','Th','Fr','Sa'][d.getDay()]}}
+function viewWalk(){
+var g=S.cfg.goal,t=todayMin(),pct=Math.min(100,Math.round(t/g*100));
+var h='<div class="item"><div class="grow"><div class="t">ഇന്നത്തെ നടത്തം: '+t+' / '+g+' മിനിറ്റ്</div><div class="bar"><i style="width:'+pct+'%"></i></div><div class="row" style="margin-top:12px"><button class="mini" data-act="walk" data-min="30">+30 മിനിറ്റ്</button><button class="mini" data-act="walk" data-min="60">1 മണിക്കൂർ നടന്നു</button></div></div></div>';
+var st=0,d=new Date();if(dayMin(key(d))<g)d.setDate(d.getDate()-1);
+while(dayMin(key(d))>=g&&st<400){st++;d.setDate(d.getDate()-1)}
+h+='<p class="s">'+(st?'തുടർച്ചയായി '+st+' ദിവസം ലക്ഷ്യം എത്തി':'ഇന്ന് ഒരു മണിക്കൂർ തികച്ചാൽ പരമ്പര തുടങ്ങും')+'</p><h2>ഈ ആഴ്ച</h2><div class="week">';
+for(var i=6;i>=0;i--){var dd=new Date();dd.setDate(dd.getDate()-i);var m=dayMin(key(dd));h+='<div class="wd"><div class="wb"><i class="'+(m>=g?'ok':'')+'" style="height:'+Math.min(100,Math.round(m/g*100))+'%"></i></div>'+wk(dd)+'</div>'}
+h+='</div><h2>ഓർമ്മപ്പെടുത്തൽ സമയം</h2><input type="time" id="walkat" value="'+S.cfg.walkAt+'"><p class="s">ഈ സമയം കഴിഞ്ഞിട്ടും ഒരു മണിക്കൂർ തികഞ്ഞില്ലെങ്കിൽ ആപ്പ് തുറക്കുമ്പോൾ ഓർമ്മപ്പെടുത്തും. ആപ്പ് അടച്ചിരിക്കുമ്പോൾ ശബ്ദം വേണമെങ്കിൽ ഫോണിൻ്റെ അലാറവും വെക്കുക.</p>';
+var rec=S.walk.slice(-5).reverse();
+if(rec.length)h+='<h2>അവസാനത്തെ രേഖകൾ</h2>';
+rec.forEach(function(w){h+='<div class="item"><div class="grow"><div class="t">'+w.min+' മിനിറ്റ്</div><div class="s">'+fmt(w.date+'T12:00:00')+'</div></div><button class="x" data-act="del-walk" data-id="'+w.id+'" aria-label="നീക്കുക">×</button></div>'});
+return h}
+
+var AI=null,aiText='',aiQ='';
+function viewAI(){
+if(!AI)return '<p class="empty">AI സഹായി ഇപ്പോൾ ഈ ഫോണിൽ ലഭ്യമല്ല.</p>';
+var chips=['ഇന്ന് എന്ത് ഉണ്ടാക്കാം?','ലളിതമായ ഒരു കറി പറയൂ','ചെടികളെ എങ്ങനെ നോക്കണം?','മുഖത്തെ കുരു മാറാൻ ഇന്ന് എന്ത് ചെയ്യണം?','നടക്കാൻ ഒരു പ്രോത്സാഹനം തരൂ'];
+var h='<form data-form="ai"><input name="q" placeholder="എന്തും ചോദിക്കൂ: പാചകം, ചെടി, നടത്തം…" value="'+esc(aiQ)+'" required><button class="add">ചോദിക്കുക</button></form><div class="chips">';
+chips.forEach(function(c){h+='<button class="chip" data-act="ask" data-q="'+c+'">'+c+'</button>'});
+h+='</div>';
+if(aiText)h+='<div class="ans" id="ans">'+esc(aiText)+'</div>';
+return h}
+function ctxText(){
+var cook=S.cook.slice(-5).map(function(c){return c.name+' ('+c.stars+'/5)'}).join(', ')||'ഒന്നുമില്ല';
+var pl=S.plant.map(function(p){return p.name+' ('+daysAgo(p.last)+' ദിവസം മുമ്പ് നനച്ചു)'}).join(', ')||'ഒന്നുമില്ല';
+var w7=0;for(var i=0;i<7;i++){var d=new Date();d.setDate(d.getDate()-i);w7+=dayMin(key(d))}
+return 'അടുത്തിടെ ഉണ്ടാക്കിയ വിഭവങ്ങൾ: '+cook+'. ചെടികൾ: '+pl+'. ഇന്ന് നടന്നത് '+todayMin()+' മിനിറ്റ്, കഴിഞ്ഞ 7 ദിവസം ആകെ '+w7+' മിനിറ്റ്.'}
+async function ask(q){
+if(!AI||!q)return;aiQ=q;aiText='ആലോചിക്കുന്നു…';render();
+var pr='നീ സുജാത തണ്ടാട്ടിലിൻ്റെ അടുക്കള, പൂന്തോട്ടം, നടത്തം എന്നിവയിൽ സഹായിക്കുന്ന സ്നേഹമുള്ള സഹായിയാണ്. ചർമ്മ സംബന്ധമായ ചോദ്യങ്ങൾക്ക് ലളിതമായ ദിവസേനയുള്ള പരിചരണം പറയുക, കഠിനമോ ദിവസങ്ങളോളം മാറാത്തതോ ആണെങ്കിൽ ഡോക്ടറെ കാണാൻ ഒരു വരിയിൽ പറയുക. ലളിതമായ മലയാളത്തിൽ ഉത്തരം നൽകുക, 6 വരിയിൽ കൂടരുത്, മാർക്ക്ഡൗൺ ഉപയോഗിക്കരുത്. അവരുടെ വിവരങ്ങൾ: '+ctxText()+' — ചോദ്യം: '+q;
+try{var r=await AI(pr,{onText:function(t){aiText=t.text;var e=document.getElementById('ans');if(e)e.textContent=aiText}});aiText=r.text}catch(e){aiText='ഇപ്പോൾ ഉത്തരം കിട്ടിയില്ല. കുറച്ച് കഴിഞ്ഞ് വീണ്ടും ശ്രമിക്കൂ.'}
+var el=document.getElementById('ans');if(el)el.textContent=aiText}
+
+document.getElementById('view').addEventListener('change',function(e){if(e.target.id==='walkat'&&e.target.value){S.cfg.walkAt=e.target.value;save();render()}});
+setInterval(function(){var a=document.activeElement;if(!a||a.tagName!=='INPUT')render()},60000);
+
+var shareBtn=document.getElementById("share");
+if(window.claude&&claude.use){claude.use("downloads").then(function(dl){if(!dl)return;shareBtn.hidden=false;shareBtn.onclick=async function(){shareBtn.disabled=true;try{var b=await makePdf();await dl.save({filename:"sujatha-"+new Date().toISOString().slice(0,10)+".pdf",data:b})}catch(e){}shareBtn.disabled=false}}).catch(function(){})}
+
+render();
+</script>
+</body>
+</html>
