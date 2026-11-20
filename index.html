@@ -43,6 +43,7 @@ h2{font-size:19px;margin:22px 0 10px}
 .share{display:block;width:100%;margin:0 0 16px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:600;padding:10px;border-radius:12px;cursor:pointer}
 .share[hidden]{display:none}
 .share:disabled{opacity:.6}
+.wxline{margin:-8px 0 16px;font-weight:600;color:var(--ink);cursor:pointer;min-height:1.2em}
 nav button{font-size:14.5px;padding:9px 12px;flex:none;white-space:nowrap}
 .week{display:flex;gap:8px;align-items:flex-end;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px}
 .wd{flex:1;text-align:center;font-size:11px;color:var(--muted)}
@@ -59,6 +60,7 @@ nav button{font-size:14.5px;padding:9px 12px;flex:none;white-space:nowrap}
 <main>
 <h1>സുജാത തണ്ടാട്ടിൽ</h1>
 <p class="date" id="today"></p>
+<div class="wxline" id="wxline"></div>
 <button class="share" id="share" hidden>PDF ആയി ഷെയർ ചെയ്യുക</button>
 <nav role="tablist">
 <button role="tab" data-tab="rem" aria-selected="true">ഓർമ്മ</button>
@@ -67,6 +69,7 @@ nav button{font-size:14.5px;padding:9px 12px;flex:none;white-space:nowrap}
 <button role="tab" data-tab="walk" aria-selected="false">നടത്തം</button>
 <button role="tab" data-tab="wx" aria-selected="false">കാലാവസ്ഥ</button>
 <button role="tab" data-tab="msg" aria-selected="false">സന്ദേശം</button>
+<button role="tab" data-tab="ai" aria-selected="false">AI</button>
 
 </nav>
 <section id="view"></section>
@@ -114,7 +117,7 @@ function viewPlant(){
   });
   return h;
 }
-function render(){
+function render(){renderWxLine();
   document.getElementById("view").innerHTML={rem:viewRem,cook:viewCook,plant:viewPlant,walk:viewWalk,wx:viewWx,msg:viewMsg,ai:viewAI}[tab]();
   document.querySelectorAll("nav button").forEach(function(b){b.setAttribute("aria-selected",b.dataset.tab===tab)});
 }
@@ -302,6 +305,7 @@ rec.forEach(function(w){h+='<div class="item"><div class="grow"><div class="t">'
 return h}
 
 var AI=null,aiText='',aiQ='';
+AI=async function(prompt){var r=await fetch('/api/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:prompt})});if(!r.ok){var j={};try{j=await r.json()}catch(e){}throw new Error(j.error||'failed')}return await r.json()};
 function viewAI(){
 if(!AI)return '<p class="empty">AI സഹായി ഇപ്പോൾ ഈ ഫോണിൽ ലഭ്യമല്ല.</p>';
 var chips=['ഇന്ന് എന്ത് ഉണ്ടാക്കാം?','ലളിതമായ ഒരു കറി പറയൂ','ചെടികളെ എങ്ങനെ നോക്കണം?','മുഖത്തെ കുരു മാറാൻ ഇന്ന് എന്ത് ചെയ്യണം?','നടക്കാൻ ഒരു പ്രോത്സാഹനം തരൂ'];
@@ -326,6 +330,13 @@ setInterval(function(){var a=document.activeElement;if(!a||(a.tagName!=='INPUT'&
 
 var WX=null,wxBusy=false,wxErr='';
 if(S.cfg.wx&&S.cfg.wx.day===key())WX=S.cfg.wx.d;
+function renderWxLine(){
+var el=document.getElementById('wxline');if(!el)return;
+if(WX)el.textContent=Math.round(WX.t)+'°C · '+wxDesc(WX.code)+' · മഴ '+WX.rp+'%';
+else if(!S.cfg.loc)el.textContent='കാലാവസ്ഥ കാണാൻ ഇവിടെ അമർത്തി സ്ഥലം അനുവദിക്കുക';
+else el.textContent=wxBusy?'കാലാവസ്ഥ എടുക്കുന്നു…':''}
+document.getElementById('wxline').addEventListener('click',function(){tab='wx';render()});
+if(S.cfg.loc)loadWx();
 function wxDesc(c){
 if(c===0)return 'തെളിഞ്ഞ ആകാശം';
 if(c<=3)return 'ഭാഗികമായി മേഘാവൃതം';
@@ -349,7 +360,7 @@ S.cfg.wx={ts:Date.now(),day:key(),d:WX};save()
 }).catch(function(){
 wxErr='കാലാവസ്ഥ എടുക്കാൻ പറ്റിയില്ല. ഇൻ്റർനെറ്റ് നോക്കി "പുതുക്കുക" അമർത്തുക.';
 if(S.cfg.wx)WX=S.cfg.wx.d
-}).then(function(){wxBusy=false;if(tab==='wx')render()})}
+}).then(function(){wxBusy=false;renderWxLine();if(tab==='wx')render()})}
 function askLoc(){
 if(!navigator.geolocation){wxErr='ഈ ഫോണിൽ സ്ഥലം എടുക്കാൻ പറ്റുന്നില്ല.';render();return}
 navigator.geolocation.getCurrentPosition(function(p){
