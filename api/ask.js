@@ -1,4 +1,4 @@
-const DEFAULT_MODEL = "gemini-3.6-flash";
+const DEFAULT_MODEL = "gemini-3.8-flash";
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") return res.status(405).json({ error: "POST only" });
@@ -15,6 +15,11 @@ module.exports = async (req, res) => {
   const url =
     "https://generativelanguage.googleapis.com/v1beta/models/" + model + ":generateContent";
 
+  const generationConfig = { maxOutputTokens: 2048 };
+  if (model.indexOf("gemini-3") === 0) {
+    generationConfig.thinkingConfig = { thinkingLevel: "low" };
+  }
+
   try {
     const r = await fetch(url, {
       method: "POST",
@@ -24,7 +29,7 @@ module.exports = async (req, res) => {
       },
       body: JSON.stringify({
         contents: [{ role: "user", parts: [{ text: prompt }] }],
-        generationConfig: { maxOutputTokens: 2048, temperature: 0.7 },
+        generationConfig,
       }),
     });
 
