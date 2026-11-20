@@ -1,4 +1,4 @@
-const DEFAULT_MODEL = "gemini-3.8-flash";
+const DEFAULT_MODEL = "gemini-3.5-flash-lite";
 
 async function callGemini(prompt) {
   const model = process.env.GEMINI_MODEL || DEFAULT_MODEL;
